@@ -1,0 +1,59 @@
+<?php
+
+require '../config/koneksi.php';
+
+if(isset($_POST["submit"])){
+$id_petugas = $_POST["id_petugas"];
+$id_siswa = $_POST["id_siswa"];
+$tgl_bayar = $_POST["tgl_bayar"];
+$bulan_bayar = $_POST["bulan_bayar"];
+$tahun_bayar = $_POST["tahun_bayar"];
+$id_spp = $_POST["id_spp"];
+$jumlah_bayar = $_POST["jumlah_bayar"];
+
+
+
+$query = "INSERT INTO tb_pembayaran VALUES
+         ('','$id_petugas','$id_siswa','$tgl_bayar','$bulan_bayar','$tahun_bayar','$id_spp','$jumlah_bayar')";
+mysqli_query($conn,$query);
+
+if(mysqli_affected_rows($conn) > 0){
+    echo "<script>alert('Data Berhasil DIMASUKAN !!!'); document.location = 'index.php?hal=dataPembayaran'</script>";
+
+}else{
+    echo "<script>alert('Data Gagal !!!'); document.location = 'index.php?hal=tambahPembayaran'</script>";
+
+}
+
+
+}if(isset($_POST["edit"])){
+    $id_kelas = $_POST['id_kelas'];
+    $nama_kelas = $_POST["nama_kelas"];
+    $keahlian = htmlspecialchars($_POST["keahlian"]);
+
+    $query2 = "UPDATE tb_kelas SET nama_kelas='$nama_kelas',keahlian='$keahlian' WHERE id_kelas = '$id_kelas'";
+
+    mysqli_query($conn,$query2);
+
+     if($query2){
+       
+        echo "<script>alert('Data Berhasil DIUBAH!'); document.location = 'index.php?hal=dataKelas'</script>";	
+        
+      
+    }else{
+        echo "<script>alert('GAGAL DIMASUKAN !!!'); document.location = 'index.php?hal=editKelas'</script>";	
+    }
+    return mysqli_affected_rows($conn);
+}if($_GET["delete"]){
+    $query1 = "DELETE FROM tb_kelas WHERE id_kelas = '$_GET[delete]'";
+    mysqli_query($conn,$query1); 
+    if($query1){
+        echo "<script>alert('Data Berhasil DIhapus!'); document.location = 'index.php?hal=dataKelas'</script>";
+
+    }else{
+        echo "<script>alert('Gagal Di hapus!'); document.location = 'index.php?hal=dataKelas'</script>";
+    }
+    return mysqli_affected_rows($conn);
+}
+
+?>
